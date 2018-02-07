@@ -1,4 +1,5 @@
 import React,  {Component} from 'react'
+import RoomList from './../component/RoomList'
 
 class Home extends Component{
 
@@ -6,7 +7,8 @@ class Home extends Component{
     return(
         <div className ='row'>
           <div className='left-container col-lg-3'>
-            <h1>This is the left side adsfakdsfjadsklfjldsalkfsdk</h1>
+            <RoomList
+            firebase= {this.props.firebase}/>
           </div>
           <div className='right-container col-lg-9'>
             <p>This is the right side</p>

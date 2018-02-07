@@ -20,15 +20,10 @@ class App extends Component {
     return (
       <div className="App">
         <div className="container fill">
-          <div className="row">
-            <header className="App-header col-lg-12">
-              <nav>
-                <Link to='/'><input type="button" className="btn-lg" value="Home"></input></Link>
-              </nav>
-            </header>
-          </div>
           <main>
-            <Route exact path='/' component={Home}/>
+            <Home
+            firebase={firebase}
+            />
           </main>
         </div>
       </div>

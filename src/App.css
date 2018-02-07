@@ -24,12 +24,15 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
 .left-container{
-  background-color: #666666
+  background-color: #eadfdf;
+  margin-bottom: -9999px;
+  overflow: hidden;
 }
 .right-container{
-  background-color: #999999
+  background-color: #999999;
+  margin-bottom: -9999px;
+  overflow: hidden;
 }
 
 .fill{
@@ -37,4 +40,11 @@
   height: 100%;
   min-width: 100%;
   width: 100%;
+}
+.btn-room{
+
+    background-color: #ddb8b8;
+    width:100%;
+    margin-bottom : 10px;
+    margin-top: 10px;
 }
