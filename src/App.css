@@ -47,10 +47,35 @@
     margin-bottom : 10px;
     margin-top: 10px;
 }
-
 .room-button-add {
   background-color: #0000ff;
 }
+.btn-signin {
+  background-color: #ffa500;
+  margin-bottom : 5px;
+  margin-top: 5px;
+}
 .chatroom{
   background-color: #ffeded
+}
+.name-tag{
+  background-color: #ccc3c3;
+
+}
+.time-tag{
+
+  background-color: #ccc3c3;
+
+}
+.messege-tag{
+  background-color: #938888;
+  width: 80%;
+  text-align: left;
+}
+.notice{
+  margin: 10px 10px 10px 10px;
+}
+.messege-box{
+  background-color: #ffff00;
+  border-style: double;
 }

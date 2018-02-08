@@ -70,8 +70,10 @@ class MessegeList extends Component{
         <h1> {this.props.chatroom.name} </h1>
         {
           this.state.messeges.map((messege, index)=>
-            <div key={index}>
-              {messege.content}
+            <div className='d-flex justify-content-between messege-box' key={index} >
+              <span className='p-2 font-weight-bold name-tag'>{messege.sender}:</span>
+              <span className='p-2 input-group-addon messege-tag'> {messege.content}</span>
+              <span className='p-2 time-tag'>{messege.time}</span>
             </div>
           )
         }

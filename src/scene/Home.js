@@ -2,6 +2,7 @@ import React,  {Component} from 'react'
 import RoomList from './../component/RoomList'
 import CreateNewRoom from './../component/CreateNewRoom'
 import MessegeList from './../component/MessegeList'
+import User from './../component/User'
 
 //import {Route} from 'react-router-dom';
 
@@ -17,6 +18,8 @@ class Home extends Component{
       roomCreateSuccess: false,
       roomCreateFailure: false,
       firstEnter : false,
+      signedIn: false,
+      displayName: "",
     }
   }
   updateRooms(roomsData){
@@ -81,9 +84,70 @@ class Home extends Component{
       });
     }
   }
+  signIn(){
+    console.log("create user");
+    const provider = new this.props.firebase.auth.GoogleAuthProvider();
+    this.props.firebase.auth().signInWithPopup( provider );
+    //
+    // this.props.firebase.auth().signInWithPopup( provider ).then(function(result) {
+    //   // This gives you a Google Access Token. You can use it to access the Google API.
+    //   //var token = result.credential.accessToken;
+    //
+    //   // The signed-in user info.
+    //
+    //   // var user = result.user;
+    //   // this.setState({
+    //   //   displayName: user.displayName,
+    //   //   signedIn : true,
+    //   // });
+    //
+    //   //console.log(`at sign in method name: ${newDisplayName} with ${newSignedIn}`);
+    //   // ...
+    // }.bind(this)).catch(function(error) {
+    //   // Handle Errors here.
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   // The email of the user's account used.
+    // //  var email = error.email;
+    //   // The firebase.auth.AuthCredential type that was used.
+    //   //var credential = error.credential;
+    //   // ...
+    //   console.log(`Error code ${errorCode}: ${errorMessage}`)
+    // });
+
+
+  }
+  signOut(){
+    this.props.firebase.auth().signOut();
+    // this.setState({
+    //   displayName: "",
+    //   signedIn : false,
+    // });
+    console.log(`at sign out`);
+  }
+  setUser(user){
+    console.log('setting the user');
+    if(user){
+      this.setState({
+        displayName : user.displayName,
+        signedIn : true,
+      });
+      console.log(`state set for user`);
+
+    }else {
+      console.log('user is null set for user');
+      this.setState({
+        displayName : "Valued Guest",
+        signedIn : false,
+      });
+
+    }
+
+  }
 
 
   render(){
+
 
     if(this.state.creatingNewRoom){
       this.rightSide=
@@ -113,8 +177,20 @@ class Home extends Component{
     }
 
     return(
+      <div>
+        <div>
+          <User
+          handleSignIn ={()=>this.signIn()}
+          handleSignOut ={()=>this.signOut()}
+          signedIn = {this.state.signedIn}
+          displayName = {this.state.displayName}
+          firebase = {this.props.firebase}
+          setUser = {(user)=>this.setUser(user)}
+          />
+        </div>
         <div className ='row'>
           <div className='left-container col-lg-3'>
+
             <RoomList
             firebase= {this.props.firebase}
             creatingNewRoom = {this.state.creatingNewRoom}
@@ -125,6 +201,7 @@ class Home extends Component{
           </div>
           {this.rightSide}
         </div>
+      </div>
     );
   }
 }

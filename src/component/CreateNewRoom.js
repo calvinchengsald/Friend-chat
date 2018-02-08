@@ -27,7 +27,7 @@ class CreateNewRoom extends Component{
           <input id='create-room-name' placeholder="Room Name" type="text" className="template" />
           <input type="submit" value="Create" onClick={()=>this.handleCreateNewRoom()}/>
           <p id="create-room-message"
-          className = {((this.props.success||this.props.failure)?'':'')+(this.props.success?'alert alert-success':'')+(this.props.failure?'alert alert-warning':'')}>{this.props.message}
+          className = {((this.props.success||this.props.failure)?'':'')+(this.props.success?'alert alert-success':'')+(this.props.failure?'alert alert-warning':'')+' notice'}>{this.props.message}
           </p>
         </div>
       </section>
