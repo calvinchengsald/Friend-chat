@@ -11,6 +11,14 @@ class RoomList extends Component{
       currentRoom: "",
     }
     this.roomsRef = this.props.firebase.database().ref('rooms');
+    this.listeners = {
+      nameListener: (snapshot) =>{
+          console.log("in name listener");
+          if(snapshot.key === "name"){
+            this.props.updateCurrentRoomName(snapshot.val(), snapshot.ref.parent.parent.key);
+          }
+      },
+    }
   }
 
 
@@ -18,9 +26,24 @@ class RoomList extends Component{
     this.roomsRef.on('child_added', snapshot => {
       const addedRoom = snapshot.val();
       addedRoom.key = snapshot.key;
+    //  addedRoom.name = snapshot.val().roomdata.name
+      addedRoom.name = snapshot.val().roomdata.name;
       this.setState({rooms: this.state.rooms.concat(addedRoom)});
-      this.props.updateRooms(this.state.rooms.concat(addedRoom));
+      this.props.updateRooms(this.state.rooms.concat(addedRoom), false);
+      const dummyRef= 'rooms/'+addedRoom.key+'/roomdata';
+      this.props.firebase.database().ref(dummyRef).on('child_changed',this.listeners.nameListener);
     });
+    this.roomsRef.on('child_removed', snapshot => {
+      var leftCurrentChatRoom = snapshot.key === this.state.currentRoom.key;
+      var tempRooms = this.state.rooms;
+      tempRooms = tempRooms.filter(roomb=> roomb.key !==snapshot.key);
+      this.setState({rooms: tempRooms});
+      this.props.updateRooms(tempRooms,leftCurrentChatRoom);
+      const dummyRef= 'rooms/'+snapshot.key+'/roomdata';
+      this.props.firebase.database().ref(dummyRef).off('child_changed',this.listeners.nameListener);
+      console.log("took out listener");
+    });
+
   }
 //  componentDidUnmount(){
     //remove soem listenenrs?
@@ -40,7 +63,7 @@ class RoomList extends Component{
           <input type='button' value='+' className='btn btn-lg btn-room room-button-add' onClick={()=>this.props.handleCreatingNewRoom()}/>
         </div>
         {this.state.rooms.map((room,index)=>
-          <div className={'room-button-'+index} key={index}>
+          <div className={'room-button-'+index + ' '} key={index}>
 
             <input type='button' value={room.name} className='btn btn-lg btn-room' onClick={()=>this.handleRoomSelect(room)}/>
 

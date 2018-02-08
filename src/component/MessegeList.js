@@ -13,12 +13,14 @@ class MessegeList extends Component{
         addMessege: (snapshot) =>{
           let messege = snapshot.val();
           messege.key = snapshot.key;
-
+          const date = new Date(messege.time);
+          messege.realTime = date.toTimeString().substring(0,5);
           this.setState( (prevState, props) => ({
             messeges : prevState.messeges.concat(messege)
           }));
         },
-    }
+        
+    };
   }
   componentDidMount(){
     this.removeAndAddListener(true);
@@ -53,26 +55,56 @@ class MessegeList extends Component{
       console.log('msg was null');
     }
   }
-
-
+  handleKeyUp(e){
+    if(e.keyCode!==13){
+      return;
+    }
+    this.handleTextSend();
+  }
+  turnToTextBox(e){
+    var inputTag = e.target;
+    inputTag.classList = "";
+    inputTag.classList.add('invisible');
+    inputTag.disabled = true;
+    var inputBox = document.getElementById('room-name-input');
+    inputBox.disabled = false;
+    inputBox.classList = "";
+    inputBox.value="";
+    inputBox.focus();
+  }
+  handleRenameRoom(){
+    var inputBox = document.getElementById('room-name-input');
+    this.props.handleRenameRoom(inputBox.value);
+    inputBox.classList.add("invisible");
+    inputBox.disabled = true;
+    var inputTag = document.getElementById('room-name');
+    inputTag.classList = "";
+    inputTag.disabled = false;
+  }
 
   render(){
 
     return(
       <div className='MessegeList right-container chatroom col-lg-9'>
-        <h1> {this.props.chatroom.name} </h1>
+        <h1 id='room-name' onClick={(e)=>this.turnToTextBox(e)}> {this.props.chatroom.name} </h1>
+        <input type="text" id='room-name-input' className='invisible' disabled={true}  onBlur={()=>this.handleRenameRoom()}/>
         {
           this.state.messeges.map((messege, index)=>
-            <div className='d-flex justify-content-between messege-box' key={index} >
-              <span className='p-2 font-weight-bold name-tag'>{messege.sender}:</span>
-              <span className='p-2 input-group-addon messege-tag'> {messege.content}</span>
-              <span className='p-2 time-tag'>{messege.time}</span>
+
+            <div className='input-group messege-box' key={index} >
+              <div className="input-group-prepend name-tag">
+                <span className="input-group-text font-weight-bold name-tag">{messege.sender}:</span>
+              </div>
+              <span className='form-control messege-tag' >{messege.content} </span>
+              <div className="input-group-append time-tag">
+                <span className="input-group-text time-tag" >{messege.realTime}</span>
+              </div>
             </div>
           )
         }
         <div className='d-flex flex-row-reverse input-text-bar'>
           <input type="button" className='p-2 btn btn-sm' value='send' onClick={()=>this.handleTextSend()} />
-          <input type="text" className='p-2 input-text-box' id='input-text-box'/>
+          <input type="text" className='p-2 input-text-box' id='input-text-box' onKeyUp={(e)=>this.handleKeyUp(e)}/>
         </div>
       </div>
     );

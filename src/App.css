@@ -60,16 +60,16 @@
 }
 .name-tag{
   background-color: #ccc3c3;
-
+  max-width: 20%;
+  min-width: 20%;
 }
 .time-tag{
-
+  max-width: 10%;
+  min-width: 10%;
   background-color: #ccc3c3;
-
+  text-align: right;
 }
 .messege-tag{
-  background-color: #938888;
-  width: 60%;
   text-align: left;
 }
 .notice{
