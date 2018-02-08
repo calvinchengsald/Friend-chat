@@ -75,7 +75,7 @@ class Home extends Component{
       this.roomsRef = this.props.firebase.database().ref('rooms').push({
         name: newName,
         messege : {
-          "0" : { content : "Welcome to this chat room", sender : "creator", time: this.props.firebase.database.ServerValue.TIMESTAMP }
+          "0" : { content : "Welcome to this chat room", sender : "God", time: this.props.firebase.database.ServerValue.TIMESTAMP }
         }
       });
       this.setState({
@@ -88,41 +88,9 @@ class Home extends Component{
     console.log("create user");
     const provider = new this.props.firebase.auth.GoogleAuthProvider();
     this.props.firebase.auth().signInWithPopup( provider );
-    //
-    // this.props.firebase.auth().signInWithPopup( provider ).then(function(result) {
-    //   // This gives you a Google Access Token. You can use it to access the Google API.
-    //   //var token = result.credential.accessToken;
-    //
-    //   // The signed-in user info.
-    //
-    //   // var user = result.user;
-    //   // this.setState({
-    //   //   displayName: user.displayName,
-    //   //   signedIn : true,
-    //   // });
-    //
-    //   //console.log(`at sign in method name: ${newDisplayName} with ${newSignedIn}`);
-    //   // ...
-    // }.bind(this)).catch(function(error) {
-    //   // Handle Errors here.
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   // The email of the user's account used.
-    // //  var email = error.email;
-    //   // The firebase.auth.AuthCredential type that was used.
-    //   //var credential = error.credential;
-    //   // ...
-    //   console.log(`Error code ${errorCode}: ${errorMessage}`)
-    // });
-
-
   }
   signOut(){
     this.props.firebase.auth().signOut();
-    // this.setState({
-    //   displayName: "",
-    //   signedIn : false,
-    // });
     console.log(`at sign out`);
   }
   setUser(user){
@@ -143,6 +111,20 @@ class Home extends Component{
 
     }
 
+  }
+  handleTextSend(msg){
+    if(!this.state.signedIn){
+      console.log("You are not signed in!");
+      return;
+    }
+    console.log("recieved msg: " + msg);
+    var msgRef = 'rooms/' + this.state.currentChatRoom.key + '/messege';
+    this.props.firebase.database().ref(msgRef).push({
+        content : msg,
+        sender : this.state.displayName,
+        time: this.props.firebase.database.ServerValue.TIMESTAMP,
+
+    });
   }
 
 
@@ -172,6 +154,7 @@ class Home extends Component{
       chatroom = {this.state.currentChatRoom}
       firebase= {this.props.firebase}
       firstEnter = {this.state.firstEnter}
+      handleTextSend = {(msg)=>this.handleTextSend(msg)}
       />
       ;
     }

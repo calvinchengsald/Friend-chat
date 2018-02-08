@@ -44,22 +44,15 @@ class MessegeList extends Component{
     }
   }
 
-  // componentDidMount(){
-  //   this.listeners = {
-  //     addMessege: (snapshot) =>{
-  //       let messege = snapshot.val();
-  //       messege.key = snapshot.key;
-  //       let newMesseges = this.state.messeges.concat(messege);
-  //       this.setState({
-  //         messeges: newMesseges
-  //       })
-  //     },
-  //   }
-  //   this.messegeRef.on('child_added', this.listeners.addMessege);
-  // }
-  // componentWillUnmount(){
-  //   this.messegeRef.off('child_added', this.listeners.addMessege);
-  // }
+  handleTextSend(){
+    var msg = document.getElementById('input-text-box').value;
+    if(msg){
+      this.props.handleTextSend(msg);
+      document.getElementById('input-text-box').value = "";
+    } else{
+      console.log('msg was null');
+    }
+  }
 
 
 
@@ -77,6 +70,10 @@ class MessegeList extends Component{
             </div>
           )
         }
+        <div className='d-flex flex-row-reverse input-text-bar'>
+          <input type="button" className='p-2 btn btn-sm' value='send' onClick={()=>this.handleTextSend()} />
+          <input type="text" className='p-2 input-text-box' id='input-text-box'/>
+        </div>
       </div>
     );
   }

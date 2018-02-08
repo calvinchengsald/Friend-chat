@@ -69,7 +69,7 @@
 }
 .messege-tag{
   background-color: #938888;
-  width: 80%;
+  width: 60%;
   text-align: left;
 }
 .notice{
@@ -78,4 +78,11 @@
 .messege-box{
   background-color: #ffff00;
   border-style: double;
+}
+.input-text-bar{
+  float:bottom;
+  background-color: #e02c2c;
+}
+.input-text-box{
+  width: 100%
 }
