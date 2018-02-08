@@ -1,6 +1,9 @@
 import React,  {Component} from 'react'
 import RoomList from './../component/RoomList'
 import CreateNewRoom from './../component/CreateNewRoom'
+import MessegeList from './../component/MessegeList'
+
+//import {Route} from 'react-router-dom';
 
 class Home extends Component{
 
@@ -13,6 +16,7 @@ class Home extends Component{
       roomCreateMessage: "",
       roomCreateSuccess: false,
       roomCreateFailure: false,
+      roomChanged : false,
     }
   }
   updateRooms(roomsData){
@@ -29,10 +33,32 @@ class Home extends Component{
     });
   }
   handleSelectedChatRoom(room){
+    if(this.state.currentChatRoom === ""){
+      this.setState({
+        currentChatRoom: room,
+        creatingNewRoom: false,
+        roomChanged: true,
+      });
+//      console.log(`entered ${room.name} from nothing`);
+    }
+    else if(this.state.currentChatRoom.name !== room.name){
+      this.setState({
+        currentChatRoom: room,
+        creatingNewRoom: false,
+        roomChanged : true,
+      });
+//      console.log(`changed to room ${room.name} from ${this.state.currentChatRoom.name}`);
+    }
+    else{
+//      console.log('clicked on same room');
+      return;
+    }
+  }
+  resetRoomChanged(){
     this.setState({
-      currentChatRoom: room,
-      creatingNewRoom: false
-    });
+      roomChanged:false
+    })
+  //  console.log("room changed set to false");
   }
   handleNewRoomName(newName){
     if(!newName){
@@ -80,9 +106,13 @@ class Home extends Component{
     }
     else {
       this.rightSide =
-      <div className='right-container col-lg-9'>
-      <h1> {this.state.currentChatRoom.name} </h1>
-      </div>
+      //    <Route path = "/messege/:slug" component = {MessegeList}/>
+      <MessegeList
+      chatroom = {this.state.currentChatRoom}
+      firebase= {this.props.firebase}
+      roomChanged = {this.state.roomChanged}
+      resetRoomChanged={()=>this.resetRoomChanged()}
+      />
       ;
     }
 

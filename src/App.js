@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Route, Link} from 'react-router-dom';
 import Home from './scene/Home.js'
 import * as firebase from 'firebase';
  // Initialize Firebase

@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 
+//import {Link} from 'react-router-dom';
+
 class RoomList extends Component{
 
   constructor(props){
@@ -19,9 +21,9 @@ class RoomList extends Component{
       this.props.updateRooms(this.state.rooms.concat(addedRoom));
     });
   }
-  componentDidUnmount(){
+//  componentDidUnmount(){
     //remove soem listenenrs?
-  }
+//  }
   handleRoomSelect(room){
     this.setState({
       currentRoom: room
@@ -34,12 +36,14 @@ class RoomList extends Component{
       <section className='room-list'>
         <h1>Rooms </h1>
         {this.state.rooms.map((room,index)=>
-          <div className={'room-button-'+index}>
+          <div className={'room-button-'+index} key={index}>
+
             <input type='button' value={room.name} className='btn btn-lg btn-room' onClick={()=>this.handleRoomSelect(room)}/>
+
           </div>
         )}
-        <div className='room-button-+'>
-          <input type='button' value='+' className='btn btn-lg btn-room' onClick={()=>this.props.handleCreatingNewRoom()}/>
+        <div >
+          <input type='button' value='+' className='btn btn-lg btn-room room-button-add' onClick={()=>this.props.handleCreatingNewRoom()}/>
         </div>
       </section>
     );
