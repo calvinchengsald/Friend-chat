@@ -16,7 +16,7 @@ class Home extends Component{
       roomCreateMessage: "",
       roomCreateSuccess: false,
       roomCreateFailure: false,
-      roomChanged : false,
+      firstEnter : false,
     }
   }
   updateRooms(roomsData){
@@ -37,7 +37,7 @@ class Home extends Component{
       this.setState({
         currentChatRoom: room,
         creatingNewRoom: false,
-        roomChanged: true,
+        firstEnter: true,
       });
 //      console.log(`entered ${room.name} from nothing`);
     }
@@ -45,7 +45,7 @@ class Home extends Component{
       this.setState({
         currentChatRoom: room,
         creatingNewRoom: false,
-        roomChanged : true,
+        firstEnter : false,
       });
 //      console.log(`changed to room ${room.name} from ${this.state.currentChatRoom.name}`);
     }
@@ -54,13 +54,7 @@ class Home extends Component{
       return;
     }
   }
-  resetRoomChanged(){
-    this.setState({
-      roomChanged:false
-    })
-  //  console.log("room changed set to false");
-  }
-  handleNewRoomName(newName){
+  handleNewRoomName(newName){   //checks if this new room name is acceptable, if so create it
     if(!newName){
       this.setState({
         roomCreateFailure: true,
@@ -76,7 +70,10 @@ class Home extends Component{
     }
     else {
       this.roomsRef = this.props.firebase.database().ref('rooms').push({
-        name: newName
+        name: newName,
+        messege : {
+          "0" : { content : "Welcome to this chat room", sender : "creator", time: this.props.firebase.database.ServerValue.TIMESTAMP }
+        }
       });
       this.setState({
         roomCreateSuccess: true,
@@ -110,8 +107,7 @@ class Home extends Component{
       <MessegeList
       chatroom = {this.state.currentChatRoom}
       firebase= {this.props.firebase}
-      roomChanged = {this.state.roomChanged}
-      resetRoomChanged={()=>this.resetRoomChanged()}
+      firstEnter = {this.state.firstEnter}
       />
       ;
     }

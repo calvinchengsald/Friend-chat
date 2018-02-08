@@ -13,28 +13,35 @@ class MessegeList extends Component{
         addMessege: (snapshot) =>{
           let messege = snapshot.val();
           messege.key = snapshot.key;
-          let newMesseges = this.state.messeges.concat(messege);
-          this.setState({
-            messeges: newMesseges
-          })
+
+          this.setState( (prevState, props) => ({
+            messeges : prevState.messeges.concat(messege)
+          }));
         },
     }
   }
+  componentDidMount(){
+    this.removeAndAddListener(true);
+  }
 
-  removeAndAddListener(){
-    console.log('enter here');
-    try{
-      this.messegeRef.off('child_added', this.listeners.addMessege);
-    } catch (e){
-      console.log(`nothign to unmount`);
+  removeAndAddListener(isNew){
+    if(!isNew){
+      try{
+        this.messegeRef.off('child_added', this.listeners.addMessege);
+      } catch (e){
+      }
+      this.setState({
+        messeges: []
+      });
     }
-    this.setState({
-      messeges: []
-    });
     this.chatRoomRef = 'rooms/' + this.props.chatroom.key + '/messege';
     this.messegeRef = this.props.firebase.database().ref(this.chatRoomRef);
     this.messegeRef.on('child_added', this.listeners.addMessege);
-    this.props.resetRoomChanged();
+  }
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.chatroom.name !== prevProps.chatroom.name){
+      this.removeAndAddListener(false);
+    }
   }
 
   // componentDidMount(){
@@ -57,9 +64,6 @@ class MessegeList extends Component{
 
 
   render(){
-    if(this.props.roomChanged){
-      this.removeAndAddListener();
-    }
 
     return(
       <div className='MessegeList right-container chatroom col-lg-9'>

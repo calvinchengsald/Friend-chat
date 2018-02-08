@@ -8,10 +8,11 @@ class RoomList extends Component{
     super(props);
     this.state = {
       rooms : [],
-      currentRoom: ""
+      currentRoom: "",
     }
     this.roomsRef = this.props.firebase.database().ref('rooms');
   }
+
 
   componentDidMount(){
     this.roomsRef.on('child_added', snapshot => {
@@ -35,6 +36,9 @@ class RoomList extends Component{
     return(
       <section className='room-list'>
         <h1>Rooms </h1>
+        <div >
+          <input type='button' value='+' className='btn btn-lg btn-room room-button-add' onClick={()=>this.props.handleCreatingNewRoom()}/>
+        </div>
         {this.state.rooms.map((room,index)=>
           <div className={'room-button-'+index} key={index}>
 
@@ -42,9 +46,7 @@ class RoomList extends Component{
 
           </div>
         )}
-        <div >
-          <input type='button' value='+' className='btn btn-lg btn-room room-button-add' onClick={()=>this.props.handleCreatingNewRoom()}/>
-        </div>
+
       </section>
     );
   }
