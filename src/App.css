@@ -34,7 +34,9 @@
   margin-bottom: -9999px;
   overflow: hidden;
 }
-
+.float-left{
+  float:left;
+}
 .fill{
   min-height: 100%;
   height: 100%;
@@ -85,4 +87,7 @@
 }
 .input-text-box{
   width: 100%
+}
+.button-delete-room {
+  margin: 10px 10px 10px 10px;
 }

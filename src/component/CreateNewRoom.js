@@ -30,7 +30,7 @@ class CreateNewRoom extends Component{
   render(){
 
     return(
-      <section className='right-container col-lg-9'>
+      <section className='right-container col-lg-9 col-md-9 col-sm-9 col-9'>
         <div className='container'>
           <h1 > Create a New Room </h1>
           <input id='create-room-name' placeholder="Room Name" type="text" className="template" onKeyUp={(e)=>this.handleKeyUp(e)}/>

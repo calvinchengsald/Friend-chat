@@ -87,6 +87,7 @@ class Home extends Component{
       });
     }
     else {
+      document.getElementById('create-room-name').value = "";
       this.roomsRef = this.props.firebase.database().ref('rooms').push({
         roomdata: {
           name: newName,
@@ -114,6 +115,9 @@ class Home extends Component{
       const roomRef = "rooms/"+this.state.currentChatRoom.key + "/roomdata/name";
       this.props.firebase.database().ref(roomRef).set(newName);
     }
+  }
+  handleDeleteRoom(){
+    this.props.firebase.database().ref('rooms/'+this.state.currentChatRoom.key).remove();
   }
   updateCurrentRoomName(newName, roomID){
     console.log(roomID);
@@ -179,7 +183,7 @@ class Home extends Component{
     }
     else if(!this.state.currentChatRoom){
       this.rightSide =
-      <div className='right-container col-lg-9'>
+      <div className='right-container col-lg-9 col-md-9 col-sm-9 col-9'>
       <h1> Select a chat room</h1>
       </div>
       ;
@@ -193,14 +197,15 @@ class Home extends Component{
       firstEnter = {this.state.firstEnter}
       handleTextSend = {(msg)=>this.handleTextSend(msg)}
       handleRenameRoom = {(newName) =>this.handleRenameRoom(newName)}
+      handleDeleteRoom = {()=>this.handleDeleteRoom()}
 
       />
       ;
     }
 
     return(
-      <div>
-        <div>
+      <div >
+        <div >
           <User
           handleSignIn ={()=>this.signIn()}
           handleSignOut ={()=>this.signOut()}
@@ -211,7 +216,7 @@ class Home extends Component{
           />
         </div>
         <div className ='row'>
-          <div className='left-container col-lg-3'>
+          <div className='left-container col-lg-3 col-md-3 col-sm-3 col-3'>
 
             <RoomList
             firebase= {this.props.firebase}

@@ -93,9 +93,17 @@ class MessegeList extends Component{
   render(){
 
     return(
-      <div className='MessegeList right-container chatroom col-lg-9'>
-        <h1 id='room-name' onClick={(e)=>this.turnToTextBox(e)}> {this.props.chatroom.name} </h1>
-        <input type="text" id='room-name-input' className='invisible' disabled={true}   onBlur={()=>this.handleRenameRoom()}/>
+      <div className='MessegeList right-container chatroom col-lg-9 col-md-9 col-sm-9 col-9'>
+
+        <div className="row">
+          <div className="col-lg-10 col-md-10 col-sm-10 col-10">
+            <h1 id='room-name' onClick={(e)=>this.turnToTextBox(e)}> {this.props.chatroom.name} </h1>
+            <input type="text" id='room-name-input' className='invisible' disabled={true}   onBlur={()=>this.handleRenameRoom()}/>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-2 col-2">
+            <span  className="ion-trash-a button-delete-room" onClick={()=>this.props.handleDeleteRoom()}></span>
+          </div>
+        </div>
         {
           this.state.messeges.map((messege, index)=>
 
