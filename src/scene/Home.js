@@ -102,7 +102,7 @@ class Home extends Component{
     }
   }
   handleRenameRoom(newName){
-    console.log(newName);
+    console.log("implementing new name");
     if(!newName){
       console.log("Cannot rename to null");
       return;

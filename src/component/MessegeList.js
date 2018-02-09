@@ -19,7 +19,7 @@ class MessegeList extends Component{
             messeges : prevState.messeges.concat(messege)
           }));
         },
-        
+
     };
   }
   componentDidMount(){
@@ -73,7 +73,9 @@ class MessegeList extends Component{
     inputBox.focus();
   }
   handleRenameRoom(){
+    console.log('enter');
     var inputBox = document.getElementById('room-name-input');
+    inputBox.disabled = true;
     this.props.handleRenameRoom(inputBox.value);
     inputBox.classList.add("invisible");
     inputBox.disabled = true;
@@ -81,13 +83,19 @@ class MessegeList extends Component{
     inputTag.classList = "";
     inputTag.disabled = false;
   }
+  // handleKeyUpName(e){
+  //   if(e.keyCode!==13){
+  //     return;
+  //   }
+  //   this.handleRenameRoom();
+  // }
 
   render(){
 
     return(
       <div className='MessegeList right-container chatroom col-lg-9'>
         <h1 id='room-name' onClick={(e)=>this.turnToTextBox(e)}> {this.props.chatroom.name} </h1>
-        <input type="text" id='room-name-input' className='invisible' disabled={true}  onBlur={()=>this.handleRenameRoom()}/>
+        <input type="text" id='room-name-input' className='invisible' disabled={true}   onBlur={()=>this.handleRenameRoom()}/>
         {
           this.state.messeges.map((messege, index)=>
 
