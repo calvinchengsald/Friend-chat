@@ -27,12 +27,10 @@
 .left-container{
   background-color: #eadfdf;
   margin-bottom: -9999px;
-  overflow: hidden;
 }
 .right-container{
   background-color: #999999;
   margin-bottom: -9999px;
-  overflow: hidden;
 }
 .float-left{
   float:left;
